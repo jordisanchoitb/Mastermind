@@ -16,7 +16,7 @@ var aciertos = 0;
 function init() {
     //1. Genera el código random del master
     master = generarColores(COLORS);
-    console.log(master);
+    //console.log(master);
 
     //2. Crea todas las filas según el número de intentos.
     for (let i = 0; i < MAX_INTENTOS; i++) {
@@ -46,16 +46,16 @@ introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function Comprobar() {
     let divinfo = document.getElementById("info");
-    console.log(userCombi);
+    //console.log(userCombi);
     if (userCombi.length == MAX_COMBI_COLORES) {
 
         mostrarCombinacionUsuario();
 
         let aciertos = comprobarAciertos();
-        console.log("Aciertos: " + aciertos);
+        //console.log("Aciertos: " + aciertos);
 
         let coincidencias = comprobarCoincidencias();
-        console.log("Coincidencias: " + coincidencias);
+        //console.log("Coincidencias: " + coincidencias);
 
         mostrarResultadoCirculos(aciertos, coincidencias);
 
@@ -70,7 +70,7 @@ function Comprobar() {
         else {
             userCombi.length = 0;
             intento++;
-            console.log(intento);
+            //console.log(intento);
             divinfo.innerHTML = "Intento " + intento + " de " + MAX_INTENTOS;
             document.getElementById("combiText").value = "";
         }
@@ -93,7 +93,7 @@ function comprobarAciertos() {
     let masterColors = document.getElementById("master");
     let arrayMasterColors = masterColors.getElementsByClassName("cel");
     for (let i = 0; i < MAX_COMBI_COLORES; i++) {
-        console.log(userCombi[i] + " es igual a " + master[i] + "?" + " " + (userCombi[i] == master[i]));
+        //console.log(userCombi[i] + " es igual a " + master[i] + "?" + " " + (userCombi[i] == master[i]));
         if (userCombi[i] == master[i]) {
             aciertos.push(i);       
             arrayMasterColors[i].id = userCombi[i];
@@ -109,7 +109,7 @@ function comprobarCoincidencias() {
     for (let i = 0; i < aciertos.length; i++) {
         masterArrayCopy.splice(masterArrayCopy.indexOf(userCombi[aciertos[i]]), 1);
     }
-    console.log("Array copia master sin colores correctos: " + masterArrayCopy);
+    //console.log("Array copia master sin colores correctos: " + masterArrayCopy);
     for (let i = 0; i < MAX_COMBI_COLORES; i++) {
         if (masterArrayCopy.includes(userCombi[i])) {
             coincidencias.push(i);
@@ -126,7 +126,7 @@ function comprobarCoincidencias() {
 function mostrarResultadoCirculos(aciertos, coincidencias) {
     let fila = document.getElementById("turno" + intento);
     let arrayCercles = fila.getElementsByClassName("cercleResult");
-    console.log("Hay " + coincidencias.length + " coincidencias");
+    //console.log("Hay " + coincidencias.length + " coincidencias");
     for (let i = 0; i < arrayCercles.length; i++) {    
         if (aciertos.includes(i)) {
             arrayCercles[i].style.backgroundColor = BLACK;
