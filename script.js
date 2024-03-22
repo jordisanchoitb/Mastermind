@@ -9,13 +9,12 @@ const BLACK = "black";
 
 //Declaración de variables globales.
 const userCombi = [];
-var master = [];
 var intento = 1;
 var aciertos = 0;
 
 function init() {
     //1. Genera el código random del master
-    master = generarColores(COLORS);
+    var master = generarColores(COLORS);
     //console.log(master);
 
     //2. Crea todas las filas según el número de intentos.
@@ -26,6 +25,11 @@ function init() {
     for (let i = MAX_INTENTOS; i > 0; i--) {
         filastrys[i - 1].id = "turno" + i;
     }
+
+    var button = document.getElementById("check");
+
+    //3. Añade los eventos a los botones de colores.
+    button.addEventListener("click", function () { Comprobar(master) });
 }
 
 function crearFila() {
@@ -44,17 +48,17 @@ function generarColores(arrayColores) {
 /* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha
 introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
-function Comprobar() {
+function Comprobar(master) {
     let divinfo = document.getElementById("info");
     //console.log(userCombi);
     if (userCombi.length == MAX_COMBI_COLORES) {
 
         mostrarCombinacionUsuario();
 
-        let aciertos = comprobarAciertos();
+        let aciertos = comprobarAciertos(master);
         //console.log("Aciertos: " + aciertos);
 
-        let coincidencias = comprobarCoincidencias();
+        let coincidencias = comprobarCoincidencias(master);
         //console.log("Coincidencias: " + coincidencias);
 
         mostrarResultadoCirculos(aciertos, coincidencias);
@@ -88,12 +92,12 @@ function mostrarCombinacionUsuario() {
     }
 }
 
-function comprobarAciertos() {
+function comprobarAciertos(master) {
     let aciertos = [];
     let masterColors = document.getElementById("master");
     let arrayMasterColors = masterColors.getElementsByClassName("cel");
     for (let i = 0; i < MAX_COMBI_COLORES; i++) {
-        //console.log(userCombi[i] + " es igual a " + master[i] + "?" + " " + (userCombi[i] == master[i]));
+        // console.log(userCombi[i] + " es igual a " + master[i] + "?" + " " + (userCombi[i] == master[i]));
         if (userCombi[i] == master[i]) {
             aciertos.push(i);       
             arrayMasterColors[i].id = userCombi[i];
@@ -102,10 +106,10 @@ function comprobarAciertos() {
     return aciertos;
 }
 
-function comprobarCoincidencias() {
+function comprobarCoincidencias(master) {
     let coincidencias = [];
     let masterArrayCopy = master.slice();
-    let aciertos = comprobarAciertos();
+    let aciertos = comprobarAciertos(master);
     for (let i = 0; i < aciertos.length; i++) {
         masterArrayCopy.splice(masterArrayCopy.indexOf(userCombi[aciertos[i]]), 1);
     }
